@@ -3,7 +3,7 @@ const Pool = require('pg').Pool
 const pool = new Pool({
   user: 'james',
   host: 'localhost',
-  database: 'james',
+  database: 'newnoise',
   password: 'postgres',
   port: 5432,
 })
@@ -31,11 +31,11 @@ const getUserById = (request, response) => {
 const createUser = (request, response) => {
     const { name, email } = request.body
 
-    pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+    pool.query("INSERT INTO Users (name, email) VALUES ($1, $2) RETURNING *", [name, email], (error, results) => {
         if (error) {
         throw error
         }
-        response.status(201).send(`User added with ID: ${result.insertId}`)
+        response.status(201).send(`User added with ID: ${JSON.stringify(results.rows[0].id)}`)
     })
 }
 
@@ -60,6 +60,7 @@ const deleteUser = (request, response) => {
 
     pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
         if (error) {
+        console.log(error, `Could not delete user with ID: ${id}, check user exists`)
         throw error
         }
         response.status(200).send(`User deleted with ID: ${id}`)

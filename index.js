@@ -15,7 +15,7 @@ app.use(
 app.use('/', cors());
 
 app.get('/', (request, response) => {
-    response.json({ info: 'Node.js, Express, and Postgres API' })
+    response.json({ users: [{name: 'bob', email: 'bobjohnson@gmail.com'}, {name: 'sam', email: 'samwise@gmail.com'}] })
 })
 
 app.listen(port, () => {

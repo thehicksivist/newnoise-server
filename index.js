@@ -1,7 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const db = require('./queries')
+const users = require('./users')
+const posts = require('./posts')
 const app = express()
 const port = 3001
 
@@ -22,9 +23,16 @@ app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })
 
-// below is the crud functions and routes for db queries
-app.get('/users', db.getUsers)
-app.get('/users/:id', db.getUserById)
-app.post('/users', db.createUser)
-app.put('/users/:id', db.updateUser)
-app.delete('/users/:id', db.deleteUser)
+// below is the crud functions and routes for users queries
+app.get('/users', users.getUsers)
+app.get('/users/:id', users.getUserById)
+app.post('/users', users.createUser)
+app.put('/users/:id', users.updateUser)
+app.delete('/users/:id', users.deleteUser)
+
+// as above for posts
+app.get('/posts', posts.getPosts)
+app.get('/posts/:id', posts.getPostById)
+app.post('/posts', posts.createPost)
+app.put('/posts/:id', posts.updatePost)
+app.delete('/posts/:id', posts.deletePost)
